@@ -110,26 +110,26 @@ function sniper.round.SetRound( round )
     		winroundred = winroundred + 1
     		winroundblue = winroundblue + 1
     		for k,v in pairs(player.GetPlayers()) do
-    			v:PS_GivePoints(snipConst.Basicpoint[4] * snipConst.GroupNumCheck(v:GetUserGroup()))
+    			v:PS_GivePoints(snipConst.Basicpoint[4] * snipConst.GroupNumCheck(v:GetUserGroup())*v:GetClanSettings().earnpoint)
     			v:ChatPrint('['..system..']'.. " 무승부! 양쪽 팀 모두에게 포인트 지급!")
     		end
     	else if l == 0 then
     		for k,v in pairs(team.GetPlayers(2)) do
-    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup()))
+    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup())*v:GetClanSettings().earnpoint)
     			v:ChatPrint('['..system..']'.. " 대테러리스트 승리! 승리포인트 지급!")
     		end 
     		for k,v in pairs(team.GetPlayers(1)) do
-    			v:PS_GivePoints(snipConst.Basicpoint[3] * snipConst.GroupNumCheck(v:GetUserGroup()))
+    			v:PS_GivePoints(snipConst.Basicpoint[3] * snipConst.GroupNumCheck(v:GetUserGroup())*v:GetClanSettings().earnpoint)
     			v:ChatPrint('['..system..']'.. " 테러리스트 패배..")
     		end
     		winroundblue = winroundblue + 1
     	else if m == 0 then
     		for k,v in pairs(team.GetPlayers(1)) do
-    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup()))
+    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup())*v:GetClanSettings().earnpoint)
     			v:ChatPrint('['..system..']'.. " 테러리스트 승리! 승리포인트 지급!")
     		end
     		for k,v in pairs(team.GetPlayers(2)) do
-    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup()))
+    			v:PS_GivePoints(snipConst.Basicpoint[2] * snipConst.GroupNumCheck(v:GetUserGroup())*v:GetClanSettings().earnpoint)
     			v:ChatPrint('['..system..']'.. " 대 테러리스트 패배..")
     		end
     		winroundred = winroundred + 1

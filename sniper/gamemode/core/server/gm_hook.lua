@@ -13,7 +13,7 @@ net.Receive('snip_selects_red',function(len, ply)
 	local r = #team.GetPlayers(1) -- red
 	local b = #team.GetPlayers(2) -- blue
 
-    if r <= b + teamplayers_range then
+    if r < b + teamplayers_range then
     	if ply:Team() != 1 then
     		if ply:Alive() then
     			ply:Kill()
@@ -32,7 +32,7 @@ net.Receive('snip_selects_blue', function(len, ply)
 	local r = #team.GetPlayers(1) -- red
 	local b = #team.GetPlayers(2) -- blue
 
-    if b <= r + teamplayers_range then
+    if b < r + teamplayers_range then
     	if ply:Team() != 2 then
     	if ply:Alive() then
     			ply:Kill()
@@ -72,6 +72,10 @@ function GM:Think()
 	if not file.Exists('plyjoinnum', 'DATA') then
 		file.CreateDir('plyjoinnum')
 	end
+	if not file.Exists('clandata', 'DATA') then
+		file.CreateDir('clandata')
+	end
+
 	for k,v in pairs(player.GetAll()) do
 		if v:Team() == 3 && v:Alive() then
 			v:Kill()
@@ -80,6 +84,7 @@ function GM:Think()
 end 
 
 function GM:PlayerSay(sender, text, teamchat)
+sender:ChatPrint("hellwoa")
 end
 
 function GM:ShowSpare2(ply)
@@ -90,7 +95,13 @@ function GM:ShowSpare2(ply)
 end
 
 function GM:PlayerInitialSpawn( ply )
-	ply:SetTeam(3)
+
+	timer.Simple(2, function()
+	net.Start("getyoursteamid")
+	net.Send( ply )
+	end)
+
+	ply:SetTeam(2)
 	net.Start('snip_choosemode')
 		net.WriteInt(#team.GetPlayers(1), 32)
 		net.WriteInt(#team.GetPlayers(2), 32)
@@ -112,7 +123,7 @@ function GM:PlayerSpawn( ply )
 	ply:StripWeapons( )
     ply:StripAmmo()
 	
-	ply:Give( "tfa_ava_aps" )
+	ply:Give( "weapon_crowbar" )
 	ply:SetArmor(100) -- 아머
 
 
@@ -165,6 +176,10 @@ function GM:PlayerSpawn( ply )
 end
 end
 function GM:DoPlayerDeath( ply, attacker, dmginfo )
+
+end
+
+function GM:PlayerSay(sender, text, teamchat)
 
 end
 
@@ -325,18 +340,16 @@ function GM:EntityTakeDamage( ply, dmginfo )
 	end
 end
 
-
-net.Receive('newbieoruser', function()
-	local steamid = net.ReadString()
-	local ply = net.ReadEntity()
+function newbieoruser(ply)
+	local steamid = ply:SteamID()
 	if file.Exists( 'plyjoinnum/'..string.Replace(steamid, ':', '_')..'.txt', 'DATA' ) == false then
 			file.Write('plyjoinnum/'..string.Replace(steamid, ':', '_')..'.txt', 1)
-			ply:PS_GivePoints( 10 )			
+			ply:PS_GivePoints( 400000 )			
 	else
 			file.Write('plyjoinnum/'..string.Replace(steamid, ':', '_')..'.txt', file.Read('plyjoinnum/'..string.Replace(steamid, ':', '_')..'.txt', "DATA") + 1)
 	end
 
-end)
+end
 
 net.Receive('snip_setspawnpoint',function(len, ply)
 	local spawndata = net.ReadTable()

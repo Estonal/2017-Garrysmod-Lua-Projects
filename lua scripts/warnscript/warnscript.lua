@@ -2,6 +2,8 @@
 
 WarnTable = {}
 
+print("WARNING 0.0000001ver is working.")
+
 if SERVER then
 	
 	util.AddNetworkString( "WarnScript_Load" )
@@ -19,7 +21,11 @@ if SERVER then
 				net.WriteTable(WarnTable)
 			net.Send(players)
 		end
+	else
+		file.Write('warnscript.txt', WarnTable) --*
 	end
+
+	
 	
 	net.Receive( "WarnScript_Warn", function( len, ply )
 		local pl = net.ReadEntity()
@@ -30,7 +36,7 @@ if SERVER then
                pl:Kick()
             end
 			for _, players in pairs( player.GetAll() ) do
-				players:ChatPrint(pl:Nick() .. " 님이 경고를 받으셨습니다. ( 이유 : " .. reason .. " )")
+				players:ChatPrint(pl:Nick() .. " 님이 경고를 받으셧습니다. ( 이유 : " .. reason .. " )")
 				net.Start("WarnScript_Send")
 					net.WriteTable(WarnTable)
 				net.Send(players)
@@ -38,6 +44,8 @@ if SERVER then
 			file.Write( "warnscript.txt", util.TableToJSON(WarnTable) )
 		end
 	end)
+
+
 	
 	net.Receive( "WarnScript_Reset", function( len, ply )
 		local pl = net.ReadEntity()
@@ -52,6 +60,8 @@ if SERVER then
 			file.Write( "warnscript.txt", util.TableToJSON(WarnTable) )
 		end
 	end)
+
+
 	
 	net.Receive( "WarnScript_Kick", function( len, ply )
 		local pl = net.ReadEntity()
@@ -68,6 +78,8 @@ if SERVER then
 			pl:Ban(time)
 		end
 	end)
+
+
 	
 	net.Receive( "WarnScript_Load", function( len, ply )
 		net.Start("WarnScript_Send")
@@ -81,12 +93,18 @@ if SERVER then
 		net.Send(Player)
 	end)
 
-	hook.Add( "PlayerSay", "FUCKING ASSHOLE", function( sender, text, teamchat ) -- sorry for this name of hook. I didn't realize this word is very bad when I was young.
-		if text == "!경고" then
+
+
+	hook.Add( "PlayerSay", "CHAT_COMMAND", function( sender, text, teamchat )   -- 여기임
+		print("IS IT POSSIBLE?!?!??!?!?!?!")
+		sender:ChatPrint("되긴됨?")
+		local string = string.lower(text)
+		if string == "!경고" then
 			net.Start("CHAT_WarnOpen")
 			net.Send(sender)
 		end
 	end)
+
 end
 	
 if CLIENT then
@@ -1047,7 +1065,7 @@ if CLIENT then
 
 	derma.DefineControl( "DVScrollBar", "A Scrollbar", PANEL, "Panel" )
 
-	net.Receive("CHAT_WarnOpen", function()
+	net.Receive("CHAT_WarnOpen", function() -- 여기
 		local WarnMenu = vgui.Create("WarnMenu")
 	end)
 end

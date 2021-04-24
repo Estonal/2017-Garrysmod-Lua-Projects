@@ -13,7 +13,7 @@ AddCSLuaFile( "core/client/getsteamid.lua" )
 AddCSLuaFile( "core/client/cl_ranking.lua" )
 AddCSLuaFile( "core/client/cl_mapspawn.lua" )
 AddCSLuaFile( "core/client/cl_choosemode.lua" )
-
+AddCSLuaFile( "core/client/cl_clan.lua" )
 -- Shared Include
 include( "shared.lua" )
 include( "core/shared/round.lua" )
@@ -25,6 +25,7 @@ include( "core/server/gm_hook.lua" )
 include( "core/server/sv_votemap.lua" )
 include( "core/server/kdsaver.lua" )
 include( "core/server/sv_ranking.lua" )
+include( "core/server/sv_clan.lua" )
 
 concommand.Add("addgun",function(ply,cmd,args)
 	ply:Give("weapon_smg");

@@ -17,6 +17,7 @@ surface.CreateFont( "mapchangefont", {
     additive = false,
     outline = false,
 } )
+
 net.Receive("Votemapsend",function()
     if Controlnumber == 0 then
 	local votemapname = net.ReadTable()
