@@ -1,0 +1,5 @@
+"Gamemode"
+{
+	"base" "base"
+	"title" "sniper"
+}
